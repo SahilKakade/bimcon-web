@@ -7,7 +7,7 @@ import {
   ArrowUpRight, Wrench, Shield, Target, Eye, 
   CheckCircle2, ShieldAlert, Cpu, ChevronRight, 
   Phone, Mail, MapPin, Image as ImageIcon, Sparkles,
-  Activity, Gauge, Layers
+  Activity, Gauge, Layers, Building2, Navigation
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -170,7 +170,6 @@ export default function Home() {
                 <span className="text-xs font-mono font-medium text-cyan-300 tracking-wider uppercase">ISO 9001:2015 Certified Engineering Partner</span>
               </div>
               
-              {/* Refined Headline - Perfectly Proportioned */}
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white uppercase leading-[1.12]">
                 Engineering <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-200 to-emerald-400">
@@ -201,7 +200,6 @@ export default function Home() {
                 </Button>
               </div>
 
-              {/* High-Impact Mini Spec Badges */}
               <div className="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4 font-mono text-xs text-slate-400">
                 <div>
                   <span className="text-white block font-bold">20+ YEARS</span>
@@ -305,7 +303,6 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Stats Cards */}
             <div className="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-5">
               {stats.map((stat, i) => (
                 <div key={i} className="bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800/90 p-6 sm:p-8 rounded-2xl backdrop-blur-md hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-center items-center text-center group shadow-xl">
@@ -517,14 +514,88 @@ export default function Home() {
         </div>
       </section>
 
+      {/* NEW SECTION: Office Location & Interactive Map */}
+      <section id="location" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712]">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4">
+            <div>
+              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">HEADQUARTERS</span>
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight uppercase text-white">Office Location</h2>
+            </div>
+            <p className="text-xs sm:text-sm font-mono text-slate-400 flex items-center gap-2">
+              <Navigation className="w-4 h-4 text-cyan-400" /> Nashik Road, Maharashtra, India
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Map Container */}
+            <div className="lg:col-span-8 bg-[#070d1e] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative min-h-[380px] sm:min-h-[450px]">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3750.355466702035!2d73.82327767522773!3d19.951547781441825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDU3JzA1LjYiTiA3M8KwNDknMzMuMSJF!5e0!3m2!1sen!2sin!4v1785665192980!5m2!1sen!2sin" 
+                className="w-full h-full border-0 absolute inset-0 filter invert contrast-125 grayscale hover:grayscale-0 transition-all duration-500 opacity-90 hover:opacity-100" 
+                allowFullScreen={true} 
+                loading="lazy" 
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Bimcon Associates Office Location"
+              />
+            </div>
+
+            {/* Office Details Card */}
+            <div className="lg:col-span-4 bg-gradient-to-br from-[#070d1e] to-slate-950 border border-slate-800 p-6 sm:p-8 rounded-2xl flex flex-col justify-between shadow-xl space-y-6">
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-base uppercase tracking-wide">Nashik Desk</h3>
+                    <p className="text-xs font-mono text-cyan-400">Central Operations Node</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-slate-800/80 text-xs sm:text-sm text-slate-300">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-1" />
+                    <p className="leading-relaxed font-sans">
+                      Plot No.5, Jerin Villa, Adke Nagar-1, Jaibhavani Road, Nashik Road, Maharashtra 422102
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 font-mono text-xs">
+                    <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
+                    <p>+91 9822971089 / 9764909778</p>
+                  </div>
+
+                  <div className="flex items-center gap-3 font-mono text-xs">
+                    <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
+                    <p>bimconassociates@gmail.com</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-slate-800/80">
+                <a 
+                  href="https://maps.google.com/?q=19.951547781441825,73.82327767522773" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white font-mono text-xs font-bold py-3.5 px-4 rounded-xl transition-colors uppercase tracking-wider gap-2"
+                >
+                  GET DIRECTIONS <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
-      <section id="contact" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712]">
+      <section id="contact" className="py-24 sm:py-32 border-t border-slate-800/80 bg-gradient-to-b from-[#030712] to-[#060e20]">
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-5 space-y-8">
               <div>
                 <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">COMMUNICATION NODE</span>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight uppercase text-white">Get In Touch</h2>
+                <h2 className="text-3xl sm:text-5xl font-bold tracking-tight uppercase text-white">Get In Touch</h2>
                 <p className="text-xs sm:text-sm text-slate-400 mt-2 font-normal">Establish immediate contact channels with our engineering desks.</p>
               </div>
               <div className="space-y-4 font-mono text-xs sm:text-sm text-slate-300">
