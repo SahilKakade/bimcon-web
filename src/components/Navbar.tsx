@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
@@ -27,7 +27,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     e.preventDefault();
     setIsOpen(false);
     const targetElement = document.querySelector(href);
@@ -46,7 +46,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         
-        {/* Brand Logo - Updated for larger sizing */}
+        {/* Brand Logo */}
         <Link 
           href="/" 
           onClick={(e) => {
@@ -58,14 +58,14 @@ export default function Navbar() {
           <Image
             src="/logo.png"
             alt="Bimcon Associates Logo"
-            width={240}                /* Increased base width */
-            height={72}                /* Increased base height */
-            className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-105" /* Scaled height up */
+            width={240}
+            height={72}
+            className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-105"
             priority
           />
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links & Enquire Now Button */}
         <div className="hidden lg:flex items-center space-x-6">
           {navItems.map((item) => (
             <a 
@@ -77,22 +77,25 @@ export default function Navbar() {
               {item.name}
             </a>
           ))}
+
           <Button 
-            variant="outline" 
-            className="border-cyan-500/40 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950 font-mono text-[11px] h-8 rounded-lg transition-all"
+            onClick={(e) => handleScrollTo(e, "#contact")}
+            className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs uppercase tracking-wider px-5 py-2 rounded-xl transition-all shadow-md shadow-cyan-500/15 cursor-pointer flex items-center gap-1.5"
           >
-            ISO 9001:2015
+            Enquire Now <ArrowUpRight className="w-4 h-4" />
           </Button>
         </div>
 
-        {/* Mobile Toggle Button */}
-        <div className="lg:hidden flex items-center gap-2">
+        {/* Mobile Actions (Enquire Button + Menu Toggle) */}
+        <div className="lg:hidden flex items-center gap-3">
           <Button 
-            variant="outline" 
-            className="border-cyan-500/40 text-cyan-300 font-mono text-[10px] h-7 px-2.5 rounded-md"
+            size="sm"
+            onClick={(e) => handleScrollTo(e, "#contact")}
+            className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-[11px] uppercase tracking-wider px-3.5 py-1.5 rounded-lg transition-all"
           >
-            ISO 9001:2015
+            Enquire
           </Button>
+          
           <button 
             onClick={() => setIsOpen(!isOpen)} 
             className="text-slate-300 hover:text-white p-1 focus:outline-none"
@@ -116,6 +119,15 @@ export default function Navbar() {
               {item.name}
             </a>
           ))}
+
+          <div className="pt-3 border-t border-slate-800/80">
+            <Button 
+              onClick={(e) => handleScrollTo(e, "#contact")}
+              className="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl"
+            >
+              Enquire Now <ArrowUpRight className="w-4 h-4 ml-1.5" />
+            </Button>
+          </div>
         </div>
       )}
     </nav>

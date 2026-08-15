@@ -6,17 +6,18 @@ import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { 
   ArrowUpRight, Wrench, Shield, Target, Eye, 
   CheckCircle2, ShieldAlert, Cpu, ChevronRight, 
-  Phone, Mail, MapPin, Image as ImageIcon, Sparkles,
-  Activity, Gauge, Layers, Building2, Navigation
+  Phone, Mail, MapPin, Activity, Gauge, 
+  Building2, Navigation, GraduationCap, UserCheck,
+  Briefcase, CheckSquare2, FileText, Send
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 function AnimatedCounter({ value }: { value: string }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const numericValue = parseInt(value.replace(/[^0-9]/g, ""), 10);
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ""), 10) || 0;
   const motionValue = useMotionValue(0);
   const springValue = useSpring(motionValue, { damping: 40, stiffness: 120 });
   const [current, setCurrent] = useState(0);
@@ -37,24 +38,61 @@ function AnimatedCounter({ value }: { value: string }) {
 }
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
+  const [activeJobIndex, setActiveJobIndex] = useState(0);
+  const [selectedService, setSelectedService] = useState<null | {
+    title: string;
+    badge: string;
+    desc: string;
+    highlights: string[];
+    process: string[];
+  }>(null);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentYear = 2026;
+  const yearsExperience = 17;
+
   const stats = [
-    { label: "Projects Completed", value: "500+" },
-    { label: "Industrial Clients", value: "100+" },
-    { label: "Equipment Restored", value: "1000+" },
-    { label: "Years Experience", value: "20+" }
+    { label: "Projects Completed", value: "250+" },
+    { label: "Industrial Clients", value: "40+" },
+    { label: "Equipment Restored", value: "400+" },
+    { label: "Years Experience", value: `${yearsExperience}+` }
+  ];
+
+  const founders = [
+    {
+      name: " Papa Chirackal",
+      role: "Co-Founder & Managing Director",
+      degree: "B.E. Computer Engineering",
+      phone: "+91 9822971089",
+      email: "bimconassociates@gmail.com",
+      image: "/founders/founder1.jpg" // Put image in public/founders/founder1.jpg
+    },
+    {
+      name: "Jerin Chirackal",
+      role: "Co-Founder & Technical Director",
+      degree: "B.Tech Computer Engineering",
+      phone: "+91 9764909778",
+      email: "bimconassociates@gmail.com",
+      image: "/founders/founder2.jpg" // Put image in public/founders/founder2.jpg
+    }
   ];
 
   const services = [
     { 
       title: "Valves Servicing", 
       badge: "Precision Systems",
-      desc: "We give services to all types of valves including Turbine Values (including High Pressure Valves, Intermediate Pressure Valves), Pilot Values, Emergency Stop Valve (ESV), Steam Line Valves, Safety Valves. Online setting pn krun deto. Tools: Portable Lapping Machine, Seat cutting for Safety valves tools, DP test kit.",
+      desc: "We give services to all types of valves including Turbine Values (including High Pressure Valves, Intermediate Pressure Valves), Pilot Values, Emergency Stop Valve (ESV), Steam Line Valves, Safety Valves along with Online setting. Tools: Portable Lapping Machine, Seat cutting for Safety valves tools, DP test kit.",
       highlights: ["Online setting available", "Portable Lapping Machine", "Seat cutting for Safety valves", "DP test kit"],
       process: [
         "Isolation and Safety.",
-        "Visual Inspection and baseline testing .",
+        "Visual Inspection and baseline testing.",
         "Overhaul and Component Servicing.",
-        "Reassembly and Calibration",
+        "Reassembly and Calibration.",
         "Routine Preventive Maintenance.",
         "Diagnostic & Troubleshooting Testing.",
         "Major Overhaul & Offline Calibration."
@@ -67,9 +105,9 @@ export default function Home() {
       highlights: ["Circulating Water Pump (CWP)", "Condensate Extraction Pump (CEP)", "Boiler Feed Pumps (BFP)"],
       process: [
         "Isolation and Safety.",
-        "Visual Inspection and baseline testing .",
+        "Visual Inspection and baseline testing.",
         "Overhaul and Component Servicing.",
-        "Reassembly and Calibration",
+        "Reassembly and Calibration.",
         "Routine Preventive Maintenance.",
         "Diagnostic & Troubleshooting Testing.",
         "Major Overhaul & Offline Calibration."
@@ -82,9 +120,9 @@ export default function Home() {
       highlights: ["Electric & Pneumatic", "Hydraulic & Electro-Hydraulic", "Control Valve Servo Motor (CVSM)"],
       process: [
         "Isolation and Safety.",
-        "Visual Inspection and baseline testing .",
+        "Visual Inspection and baseline testing.",
         "Overhaul and Component Servicing.",
-        "Reassembly and Calibration",
+        "Reassembly and Calibration.",
         "Routine Preventive Maintenance.",
         "Diagnostic & Troubleshooting Testing.",
         "Major Overhaul & Offline Calibration."
@@ -93,13 +131,13 @@ export default function Home() {
     { 
       title: "Cooler Work", 
       badge: "Heat Transfer",
-      desc: "All types including Condensers, Working Oil coolers, Main oil coolers, Lube oil coolers, GTR coolers. Tools: Jetting machines, Bullet machine inclunig all types of bullets, ceramic coating equipments, various size ss rods.",
+      desc: "All types including Condensers, Working Oil coolers, Main oil coolers, Lube oil coolers, GTR coolers. Tools: Jetting machines, Bullet machine including all types of bullets, ceramic coating equipments, various size SS rods.",
       highlights: ["Jetting & Bullet machines", "Ceramic coating equipment", "Multi-size SS rods"],
       process: [
         "Isolation and Safety.",
-        "Visual Inspection and baseline testing .",
+        "Visual Inspection and baseline testing.",
         "Overhaul and Component Servicing.",
-        "Reassembly and Calibration",
+        "Reassembly and Calibration.",
         "Routine Preventive Maintenance.",
         "Diagnostic & Troubleshooting Testing.",
         "Major Overhaul & Offline Calibration."
@@ -112,9 +150,9 @@ export default function Home() {
       highlights: ["Speed sensing subsystems", "Control units & Servo valves", "Pilot & Governor valves"],
       process: [
         "Isolation and Safety.",
-        "Visual Inspection and baseline testing .",
+        "Visual Inspection and baseline testing.",
         "Overhaul and Component Servicing.",
-        "Reassembly and Calibration",
+        "Reassembly and Calibration.",
         "Routine Preventive Maintenance.",
         "Diagnostic & Troubleshooting Testing.",
         "Major Overhaul & Offline Calibration."
@@ -144,13 +182,114 @@ export default function Home() {
     }
   ];
 
+  const deployments = [
+    {
+      title: "Valve Reconditioning Loops",
+      client: "MAHAGENCO",
+      type: "Shutdown Maintenance",
+      zone: "Turbine Core Complex",
+      pressureSpec: "180 kg/cm²",
+      duration: "14 Days",
+      status: "Completed",
+      highlights: ["HP/IP Valve Lapping", "Online Pilot Calibration", "Zero Steam Leakage Guarantee"]
+    },
+    {
+      title: "Cooling Tower Structural Overhaul",
+      client: "NTPC Grid Area",
+      type: "Mechanical Overhaul",
+      zone: "Cell Assembly Deck",
+      pressureSpec: "Atmospheric Flow",
+      duration: "21 Days",
+      status: "Completed",
+      highlights: ["Gearbox Overhaul", "Fan Dynamic Balancing", "PVC Drift Eliminator Replacement"]
+    },
+    {
+      title: "High-Pressure Piping Modifications",
+      client: "GSECL Authority",
+      type: "Fabrication & Erection",
+      zone: "Feedwater Loop Grid",
+      pressureSpec: "210 bar",
+      duration: "10 Days",
+      status: "Completed",
+      highlights: ["GTAW Root Pass Welding", "100% DP & RT Tested", "P91 Alloy Precision Alignment"]
+    },
+    {
+      title: "Condenser Tube Hydro-Scale Extraction",
+      client: "MPPGCL / KPCL",
+      type: "Hydro-Jetting Systems",
+      zone: "Main Cooling Systems",
+      pressureSpec: "1000 bar Jetting",
+      duration: "08 Days",
+      status: "Completed",
+      highlights: ["Scraper Bullet Cleaning", "Vacuum Integrity Restored", "Heat Rate Improvement"]
+    }
+  ];
+
+  const careerPositions = [
+    {
+      title: "Mechanical Engineers",
+      type: "Full Time / On-Site",
+      experience: "2-5 Years",
+      location: "Plant Shutdown Sites",
+      description: "Supervise plant overhauls, coordinate precision valve & pump assembly, verify alignment tolerances, and prepare quality inspection dossiers.",
+      requirements: ["B.E. / Diploma in Mechanical Engineering", "Experience with steam turbine auxiliaries", "Proficiency in reading mechanical layout blueprints"]
+    },
+    {
+      title: "Plant Supervisors",
+      type: "Full Time / Site-Based",
+      experience: "3+ Years",
+      location: "Maharashtra & Pan-India Sites",
+      description: "Manage shift-wise workforce execution, enforce zero-accident safety matrices, and ensure scheduled delivery of mechanical overhauls.",
+      requirements: ["Strong hands-on experience in thermal/process plants", "Crew management and task delegation skills", "Safety permit handling knowledge"]
+    },
+    {
+      title: "High-Pressure Welders",
+      type: "Contract / Full Time",
+      experience: "4+ Years",
+      location: "Site Deployments",
+      description: "Execute GTAW (TIG) and SMAW (ARC) high-pressure boiler piping welding with zero defect rate under radiography inspection.",
+      requirements: ["IBR certified or 6G position qualification", "Experience with CS, SS, and Alloy Steel materials", "Clean track record in non-destructive testing"]
+    },
+    {
+      title: "Fitters & Riggers",
+      type: "Full Time / Project-Based",
+      experience: "2+ Years",
+      location: "Field Units",
+      description: "Execute dismantling, overhaul, precise lapping, gasket replacements, and heavy machinery rigging under engineering supervision.",
+      requirements: ["ITI in Fitter / Rigger trade", "Familiarity with torque wrenches, dial gauges, and lapping tools", "Ability to work on heights and tight shutdown timelines"]
+    },
+    {
+      title: "Store In-charge",
+      type: "Full Time",
+      experience: "2-4 Years",
+      location: "Central Nashik / Site Units",
+      description: "Maintain real-time inventory for specialty overhaul tools, DP kits, PPE gear, consumables, gaskets, and site equipment logistics.",
+      requirements: ["Knowledge of mechanical tools & industrial consumables", "Proficiency in inventory logging and stock management", "Good communication and dispatch coordination"]
+    },
+    {
+      title: "Site Technicians",
+      type: "Full Time",
+      experience: "1-3 Years",
+      location: "Multi-State Deployments",
+      description: "Assist lead technicians in hydraulic actuator calibration, high-pressure jetting loops, and non-destructive dye penetrant checking.",
+      requirements: ["ITI/Diploma qualification", "Technical aptitude in pump and valve mechanism maintenance", "Willingness to travel for plant shutdown projects"]
+    }
+  ];
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-[#030712] text-slate-100 font-sans antialiased overflow-x-hidden">
+        <Navbar />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#030712] text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-cyan-500/30 selection:text-cyan-300">
       <Navbar />
 
-      {/* Modern Industrial Hero Section */}
+      {/* Hero Section */}
       <section id="home" className="relative min-h-[90vh] flex items-center justify-center pt-28 pb-16 overflow-hidden">
-        {/* Subtle Background Elements */}
         <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(6,182,212,0.12),rgba(0,0,0,0))]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b12_1px,transparent_1px),linear-gradient(to_bottom,#1e293b12_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
@@ -158,7 +297,6 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl px-5 sm:px-8 mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            {/* Main Content Area */}
             <motion.div 
               className="lg:col-span-7 text-left space-y-6"
               initial={{ opacity: 0, y: 16 }} 
@@ -167,7 +305,7 @@ export default function Home() {
             >
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 backdrop-blur-md">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="text-xs font-mono font-medium text-cyan-300 tracking-wider uppercase">ISO 9001:2015 Certified Engineering Partner</span>
+                <span className="text-xs font-mono font-medium text-cyan-300 tracking-wider uppercase">Industrial Engineering Partner</span>
               </div>
               
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white uppercase leading-[1.12]">
@@ -178,8 +316,8 @@ export default function Home() {
                 Solutions
               </h1>
               
-              <p className="text-sm sm:text-base text-slate-300/90 max-w-2xl leading-relaxed font-normal">
-                Bimcon Associates, Nashik is one of India's emerging industrial engineering and maintenance solution providers, delivering comprehensive mechanical maintenance, shutdown execution, fabrication, and project management services.
+              <p className="text-sm sm:text-base text-slate-300/90 max-w-2xl leading-relaxed font-normal text-justify">
+                Bimcon Associates, Nashik is one of India&apos;s emerging industrial engineering and maintenance solution providers, delivering comprehensive mechanical maintenance, shutdown execution, fabrication, and project management services.
               </p>
               
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
@@ -202,11 +340,11 @@ export default function Home() {
 
               <div className="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4 font-mono text-xs text-slate-400">
                 <div>
-                  <span className="text-white block font-bold">20+ YEARS</span>
+                  <span className="text-white block font-bold">{yearsExperience}+ YEARS</span>
                   <span className="text-[10px] text-slate-500 uppercase">Industry Mastery</span>
                 </div>
                 <div>
-                  <span className="text-cyan-400 block font-bold">500+</span>
+                  <span className="text-cyan-400 block font-bold">250+</span>
                   <span className="text-[10px] text-slate-500 uppercase">Projects Executed</span>
                 </div>
                 <div>
@@ -216,14 +354,13 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Industrial Live Command Preview Card */}
             <motion.div 
               className="lg:col-span-5 bg-[#070d1e] border border-slate-800 p-6 sm:p-8 rounded-2xl relative shadow-2xl overflow-hidden hidden sm:block"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.1 }}
             >
-              <div className="absolute top-0 right-0 p-4 opacity-10">
+              <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                 <Activity className="w-32 h-32 text-cyan-400" />
               </div>
 
@@ -271,12 +408,12 @@ export default function Home() {
                 <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase leading-tight">About Bimcon Associates</h2>
               </div>
 
-              <div className="space-y-5 text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
+              <div className="space-y-5 text-slate-300 text-sm sm:text-base leading-relaxed font-normal text-justify">
                 <p>
-                  Bimcon Associates, Nashik is one of India's emerging industrial engineering and maintenance solution providers, delivering comprehensive mechanical maintenance, shutdown execution, fabrication, and project management services to thermal power plants and heavy process industries. Since its establishment in 2009, the company has consistently built a reputation for technical excellence, quality workmanship, and timely project execution.
+                  Bimcon Associates, Nashik is one of India&apos;s emerging industrial engineering and maintenance solution providers, delivering comprehensive mechanical maintenance, shutdown execution, fabrication, and project management services to thermal power plants and heavy process industries. Since its establishment in 2009, the company has consistently built a reputation for technical excellence, quality workmanship, and timely project execution.
                 </p>
                 <p>
-                  With years of practical experience in complex industrial environments, Bimcon Associates specializes in the maintenance and overhauling of critical power plant equipment including all types of valves, all types of pumps including boiler feed pumps (BFPs), condensers, coolers, cooling tower works, piping systems, actuators, gearboxes, compressors, and other auxiliary equipment. Every project is executed by a team of skilled engineers, supervisors, technicians, welders, and fitters who are committed to delivering safe, reliable, and cost-effective engineering solutions.
+                  With extensive practical experience in complex industrial environments, Bimcon Associates specializes in the maintenance and overhauling of critical power plant equipment including all types of valves, pumps including boiler feed pumps (BFPs), condensers, coolers, cooling tower works, piping systems, actuators, gearboxes, compressors, and auxiliary units. Every project is executed by a dedicated team committed to delivering safe, reliable, and cost-effective solutions.
                 </p>
               </div>
               
@@ -287,7 +424,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-xs uppercase tracking-wide">Our Mission</h4>
-                    <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">Deliver high-quality engineering and maintenance solutions that improve equipment reliability, reduce downtime, and optimize costs.</p>
+                    <p className="text-xs text-slate-400 mt-1.5 leading-relaxed text-justify">Deliver high-quality engineering and maintenance solutions that improve equipment reliability, reduce downtime, and optimize operational costs.</p>
                   </div>
                 </div>
 
@@ -297,7 +434,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-xs uppercase tracking-wide">Our Vision</h4>
-                    <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">To become India's leading engineering partner for steam turbines, turbine auxiliaries, and critical industrial equipment.</p>
+                    <p className="text-xs text-slate-400 mt-1.5 leading-relaxed text-justify">To become India&apos;s leading engineering partner for steam turbines, turbine auxiliaries, and critical industrial process equipment.</p>
                   </div>
                 </div>
               </div>
@@ -312,6 +449,69 @@ export default function Home() {
               ))}
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership / Founders Section */}
+      <section id="leadership" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712]">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16 gap-4">
+            <div>
+              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">MANAGEMENT</span>
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight uppercase text-white">Founders & Leadership</h2>
+            </div>
+            <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">Engineering Technical Backbone</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {founders.map((founder, idx) => (
+              <div 
+                key={idx} 
+                className="bg-[#070d1e] border border-slate-800 rounded-2xl p-6 sm:p-8 hover:border-cyan-500/40 transition-all duration-300 shadow-xl flex flex-col sm:flex-row items-center sm:items-start gap-6 group"
+              >
+                {/* Founder Photo */}
+                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-cyan-500/20 flex items-center justify-center shrink-0 overflow-hidden relative shadow-inner">
+                  {founder.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img 
+                      src={founder.image} 
+                      alt={founder.name} 
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" 
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-slate-500 group-hover:text-cyan-400 transition-colors">
+                      <UserCheck className="w-10 h-10 mb-1" />
+                      <span className="text-[10px] font-mono font-bold tracking-wider uppercase">EXECUTIVE</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Founder Details */}
+                <div className="flex-1 text-center sm:text-left space-y-3 w-full">
+                  <div>
+                    <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider block font-bold">{founder.role}</span>
+                    <h3 className="text-xl font-bold text-white uppercase tracking-wide group-hover:text-cyan-300 transition-colors">{founder.name}</h3>
+                  </div>
+
+                  <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-slate-300 font-sans">
+                    <GraduationCap className="w-4 h-4 text-cyan-400 shrink-0" />
+                    <span>{founder.degree}</span>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-800 space-y-2 text-xs font-mono text-slate-400">
+                    <div className="flex items-center justify-center sm:justify-start gap-2.5">
+                      <Phone className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                      <a href={`tel:${founder.phone.replace(/[^0-9+]/g, "")}`} className="hover:text-cyan-300 transition-colors">{founder.phone}</a>
+                    </div>
+                    <div className="flex items-center justify-center sm:justify-start gap-2.5">
+                      <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                      <a href={`mailto:${founder.email}`} className="hover:text-cyan-300 transition-colors">{founder.email}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -331,56 +531,64 @@ export default function Home() {
           
           <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-5 px-5 md:mx-0 md:px-0">
             {services.map((srv, index) => (
-              <Dialog key={index}>
-                <DialogTrigger className="w-[85vw] max-w-[340px] md:w-full shrink-0 snap-start text-left bg-transparent border-0 p-0 block cursor-pointer outline-none focus:ring-0">
-                  <Card className="bg-[#070d1e] border border-slate-800/80 hover:border-cyan-500/40 hover:bg-[#0a132b] transition-all duration-300 group flex flex-col justify-between h-full rounded-2xl shadow-xl overflow-hidden outline-none ring-0">
-                    <CardHeader className="p-6 sm:p-7 pb-4">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors">
-                          <Wrench className="w-5 h-5" />
-                        </div>
-                        <span className="text-[10px] font-mono bg-slate-900/90 text-cyan-300 px-3 py-1 rounded-full border border-slate-800 uppercase tracking-widest font-semibold">
-                          {srv.badge}
-                        </span>
+              <div 
+                key={index}
+                onClick={() => setSelectedService(srv)}
+                className="w-[85vw] max-w-[340px] md:w-full shrink-0 snap-start text-left bg-transparent border-0 p-0 block cursor-pointer outline-none"
+              >
+                <Card className="bg-[#070d1e] border border-slate-800/80 hover:border-cyan-500/40 hover:bg-[#0a132b] transition-all duration-300 group flex flex-col justify-between h-full rounded-2xl shadow-xl overflow-hidden outline-none ring-0">
+                  <CardHeader className="p-6 sm:p-7 pb-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors">
+                        <Wrench className="w-5 h-5" />
                       </div>
-                      <CardTitle className="text-lg sm:text-xl text-white font-bold group-hover:text-cyan-300 transition-colors uppercase tracking-wide leading-snug">
-                        {srv.title}
-                      </CardTitle>
-                    </CardHeader>
-
-                    <CardContent className="p-6 sm:p-7 pt-0 flex flex-col justify-between flex-1">
-                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-normal line-clamp-3">
-                        {srv.desc}
-                      </p>
-
-                      {srv.highlights && (
-                        <div className="mb-6 pt-4 border-t border-slate-800/80 space-y-2">
-                          {srv.highlights.slice(0, 2).map((item, hIdx) => (
-                            <div key={hIdx} className="text-xs text-slate-400 flex items-center gap-2">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                              <span className="truncate">{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <span className="text-xs font-mono text-cyan-400 uppercase flex items-center tracking-wider font-bold pt-1">
-                        EXPLORE WORKFLOW <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"/>
+                      <span className="text-[10px] font-mono bg-slate-900/90 text-cyan-300 px-3 py-1 rounded-full border border-slate-800 uppercase tracking-widest font-semibold">
+                        {srv.badge}
                       </span>
-                    </CardContent>
-                  </Card>
-                </DialogTrigger>
-
-                <DialogContent className="bg-[#070d1e] border-slate-800 text-slate-100 max-w-lg rounded-2xl p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
-                  <DialogHeader className="pb-2">
-                    <div className="inline-block text-xs font-mono text-cyan-400 uppercase tracking-widest mb-1">{srv.badge}</div>
-                    <DialogTitle className="text-cyan-300 font-bold uppercase tracking-wide text-lg sm:text-xl leading-snug">
+                    </div>
+                    <CardTitle className="text-lg sm:text-xl text-white font-bold group-hover:text-cyan-300 transition-colors uppercase tracking-wide leading-snug">
                       {srv.title}
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="p-6 sm:p-7 pt-0 flex flex-col justify-between flex-1">
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-normal line-clamp-3 text-justify">
+                      {srv.desc}
+                    </p>
+
+                    {srv.highlights && (
+                      <div className="mb-6 pt-4 border-t border-slate-800/80 space-y-2">
+                        {srv.highlights.slice(0, 2).map((item, hIdx) => (
+                          <div key={hIdx} className="text-xs text-slate-400 flex items-center gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                            <span className="truncate">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <span className="text-xs font-mono text-cyan-400 uppercase flex items-center tracking-wider font-bold pt-1">
+                      EXPLORE WORKFLOW <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"/>
+                    </span>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
+
+          <Dialog open={!!selectedService} onOpenChange={(open) => !open && setSelectedService(null)}>
+            <DialogContent className="bg-[#070d1e] border-slate-800 text-slate-100 max-w-lg rounded-2xl p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
+              {selectedService && (
+                <>
+                  <DialogHeader className="pb-2">
+                    <div className="inline-block text-xs font-mono text-cyan-400 uppercase tracking-widest mb-1">{selectedService.badge}</div>
+                    <DialogTitle className="text-cyan-300 font-bold uppercase tracking-wide text-lg sm:text-xl leading-snug">
+                      {selectedService.title}
                     </DialogTitle>
                   </DialogHeader>
                   <div className="mt-4 space-y-6">
-                    <div className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal bg-slate-900/60 p-4 rounded-xl border border-slate-800">
-                      {srv.desc}
+                    <div className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-justify">
+                      {selectedService.desc}
                     </div>
                     
                     <div>
@@ -388,7 +596,7 @@ export default function Home() {
                         <Cpu className="w-4 h-4 text-cyan-400"/> Operational Phases & Execution Loops
                       </h4>
                       <div className="space-y-2.5 bg-slate-900/40 p-4 rounded-xl border border-slate-800/60">
-                        {srv.process.map((p, idx) => (
+                        {selectedService.process.map((p, idx) => (
                           <div key={idx} className="text-xs sm:text-sm text-slate-300 flex items-start gap-3 py-1">
                             <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/20">
                               {idx + 1}
@@ -399,10 +607,10 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                </DialogContent>
-              </Dialog>
-            ))}
-          </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
@@ -411,33 +619,66 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16 gap-4">
             <div>
-              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">PORTFOLIO</span>
+              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">FIELD PORTFOLIO</span>
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight uppercase text-white">Verified Deployments</h2>
             </div>
             <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">State-Wide Power Infrastructure</span>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {[
-              { title: "Valve Reconditioning Loops", client: "MAHAGENCO", type: "Shutdown Maintenance", zone: "Turbine Core Complex" },
-              { title: "Cooling Tower Structural Overhaul", client: "NTPC Grid Area", type: "Mechanical Engineering", zone: "Cell Assembly Deck" },
-              { title: "High-Pressure Piping Modifications", client: "GSECL Authority", type: "Fabrication & Erection", zone: "Feedwater Loop Grid" },
-              { title: "Condenser Tube Scale Extraction", client: "MPPGCL / KPCL", type: "Hydro-Jetting Systems", zone: "Main Cooling Systems" }
-            ].map((proj, idx) => (
-              <div key={idx} className="bg-[#070d1e] border border-slate-800/80 rounded-2xl overflow-hidden group hover:border-cyan-500/40 transition-all duration-300 shadow-xl flex flex-col justify-between">
-                <div className="h-44 sm:h-48 bg-gradient-to-b from-[#0a1228] to-[#050a18] flex flex-col justify-center items-center text-slate-500 relative border-b border-slate-800/80">
-                  <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                  <ImageIcon className="w-8 h-8 mb-2.5 text-slate-600 group-hover:text-cyan-400/60 transition-colors" />
-                  <span className="text-xs font-mono uppercase tracking-widest text-slate-400">{proj.zone} Layout Spec</span>
-                </div>
-                <div className="p-6 sm:p-7 flex items-center justify-between gap-4">
+            {deployments.map((proj, idx) => (
+              <div 
+                key={idx} 
+                className="bg-[#070d1e] border border-slate-800/90 rounded-2xl overflow-hidden group hover:border-cyan-500/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
+              >
+                <div className="p-6 sm:p-7 bg-gradient-to-r from-slate-900/90 to-[#0c1633] border-b border-slate-800 flex items-start justify-between gap-4">
                   <div>
-                    <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest block mb-1 font-bold">{proj.type}</span>
-                    <h4 className="text-base sm:text-lg text-white font-bold uppercase tracking-wide group-hover:text-cyan-300 transition-colors leading-snug">{proj.title}</h4>
-                    <p className="text-xs text-slate-400 mt-1.5">Authority Client: <span className="text-slate-200 font-medium">{proj.client}</span></p>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[10px] font-mono text-cyan-300 tracking-wider uppercase font-semibold">{proj.type}</span>
+                    </div>
+                    <h3 className="text-lg sm:text-xl text-white font-bold uppercase tracking-wide group-hover:text-cyan-300 transition-colors">
+                      {proj.title}
+                    </h3>
                   </div>
-                  <div className="w-9 h-9 rounded-full border border-slate-800 bg-slate-900/80 flex items-center justify-center text-slate-400 group-hover:text-white group-hover:border-cyan-500/40 transition-colors shrink-0">
-                    <ArrowUpRight className="w-4 h-4"/>
+                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider font-bold shrink-0">
+                    {proj.status}
+                  </span>
+                </div>
+
+                <div className="p-6 sm:p-7 space-y-6 flex-1 flex flex-col justify-between">
+                  <div className="grid grid-cols-3 gap-3 font-mono text-xs border border-slate-800/80 rounded-xl p-3.5 bg-slate-950/40">
+                    <div>
+                      <span className="text-[10px] text-slate-500 uppercase block">Client Authority</span>
+                      <span className="text-white font-bold truncate block">{proj.client}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-slate-500 uppercase block">Pressure / Spec</span>
+                      <span className="text-cyan-300 font-bold truncate block">{proj.pressureSpec}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-slate-500 uppercase block">Duration</span>
+                      <span className="text-emerald-400 font-bold truncate block">{proj.duration}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 pt-2">
+                    <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block font-semibold">Key Scope Executed:</span>
+                    <div className="space-y-1.5">
+                      {proj.highlights.map((hl, hIdx) => (
+                        <div key={hIdx} className="flex items-center gap-2 text-xs text-slate-300 font-sans">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                          <span>{hl}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400">
+                    <span>Zone: <strong className="text-slate-200">{proj.zone}</strong></span>
+                    <span className="text-cyan-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 font-bold">
+                      VERIFIED LOG <ArrowUpRight className="w-3.5 h-3.5" />
+                    </span>
                   </div>
                 </div>
               </div>
@@ -455,7 +696,7 @@ export default function Home() {
                 <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">ZERO-ACCIDENT PROTOCOL</span>
                 <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white uppercase">Quality & Safety Matrix</h2>
               </div>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal text-justify">
                 Our plant setups execute strict predictive risk mitigation loops and full PPE compliance guidelines to guarantee total continuity and protection during rigorous multi-stage shutdown operations.
               </p>
               <div className="space-y-3.5">
@@ -478,8 +719,8 @@ export default function Home() {
               </h3>
               <div className="space-y-5 font-mono text-xs sm:text-sm text-slate-400">
                 <div className="border-b border-slate-800/80 pb-4">
-                  <span className="text-white block font-sans font-bold text-sm mb-1">ISO 9001:2015 Standards</span>
-                  Quality assurance processes checked and completely logged.
+                  <span className="text-white block font-sans font-bold text-sm mb-1">Standardized QA Protocols</span>
+                  Quality assurance processes and execution logs systematically verified.
                 </div>
                 <div className="border-b border-slate-800/80 pb-4">
                   <span className="text-white block font-sans font-bold text-sm mb-1">TPM Control Loops</span>
@@ -497,24 +738,143 @@ export default function Home() {
 
       {/* Careers Section */}
       <section id="careers" className="py-24 sm:py-32 border-t border-slate-800/80 bg-gradient-to-b from-[#030712] to-[#060e20]">
-        <div className="max-w-4xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-12">
-            <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">JOIN OUR RECRUITMENT NETWORK</span>
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">JOIN OUR ENGINEERING DESK</span>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight uppercase text-white">Career Opportunities</h2>
-            <p className="text-xs sm:text-sm text-slate-400 mt-2">Open recruitment positions across multi-state engineering sites.</p>
+            <p className="text-xs sm:text-sm text-slate-400 mt-2 font-normal">
+              Select an open role to view operational requirements and initiate immediate application channels.
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {["Mechanical Engineers", "Plant Supervisors", "High-Pressure Welders", "Fitters & Riggers", "Project Leaders", "Site Technicians"].map((job, idx) => (
-              <div key={idx} className="border border-slate-800 bg-[#070d1e] p-4 rounded-xl flex items-center justify-between shadow-md hover:border-cyan-500/40 transition-colors">
-                <span className="text-xs sm:text-sm font-semibold text-slate-200">{job}</span>
-                <span className="text-[10px] font-mono text-cyan-400 uppercase bg-cyan-500/10 px-3 py-1 rounded-md border border-cyan-500/20 font-bold">Apply</span>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-5 space-y-3">
+              {careerPositions.map((job, idx) => {
+                const isActive = activeJobIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => setActiveJobIndex(idx)}
+                    className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                      isActive 
+                        ? "bg-[#0b1836] border-cyan-500/60 shadow-lg shadow-cyan-500/10 translate-x-1" 
+                        : "bg-[#070d1e] border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${isActive ? "bg-cyan-400 text-slate-950" : "bg-slate-800 text-cyan-400"}`}>
+                        <Briefcase className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className={`text-sm font-bold uppercase tracking-wide ${isActive ? "text-cyan-300" : "text-white"}`}>
+                          {job.title}
+                        </h4>
+                        <span className="text-[11px] font-mono text-slate-400 block mt-0.5">{job.experience} Exp • {job.type}</span>
+                      </div>
+                    </div>
+                    <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? "text-cyan-400 translate-x-1" : "text-slate-600"}`} />
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="lg:col-span-7 bg-[#070d1e] border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+                <div>
+                  <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest font-semibold block mb-1">
+                    {careerPositions[activeJobIndex].type}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-wide text-white">
+                    {careerPositions[activeJobIndex].title}
+                  </h3>
+                </div>
+                <span className="text-xs font-mono bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300 w-fit">
+                  📍 {careerPositions[activeJobIndex].location}
+                </span>
               </div>
-            ))}
+
+              <div>
+                <h4 className="text-xs font-mono text-white uppercase tracking-wider mb-2 font-bold flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-cyan-400" /> Role Overview
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal text-justify">
+                  {careerPositions[activeJobIndex].description}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-mono text-white uppercase tracking-wider mb-3 font-bold flex items-center gap-2">
+                  <CheckSquare2 className="w-4 h-4 text-cyan-400" /> Key Prerequisites & Criteria
+                </h4>
+                <div className="space-y-2">
+                  {careerPositions[activeJobIndex].requirements.map((req, rIdx) => (
+                    <div key={rIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">
+                      <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                      <span>{req}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p className="text-xs font-mono text-slate-400">
+                  Send CV to: <strong className="text-slate-200">bimconassociates@gmail.com</strong>
+                </p>
+
+                <Button 
+                  onClick={() => setIsApplyModalOpen(true)}
+                  className="w-full sm:w-auto bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl cursor-pointer shadow-lg shadow-cyan-500/15"
+                >
+                  Quick Apply for Role <ArrowUpRight className="ml-1.5 w-4 h-4" />
+                </Button>
+              </div>
+            </div>
           </div>
+
+          <Dialog open={isApplyModalOpen} onOpenChange={setIsApplyModalOpen}>
+            <DialogContent className="bg-[#070d1e] border-slate-800 text-slate-100 max-w-md rounded-2xl p-6 sm:p-8">
+              <DialogHeader>
+                <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Recruitment Portal</span>
+                <DialogTitle className="text-white font-bold uppercase tracking-wide text-lg sm:text-xl">
+                  Apply: {careerPositions[activeJobIndex].title}
+                </DialogTitle>
+              </DialogHeader>
+
+              <form className="space-y-4 mt-4" onSubmit={(e) => { e.preventDefault(); setIsApplyModalOpen(false); alert("Application details transmitted. Our HR team will get in touch shortly."); }}>
+                <input 
+                  type="text" 
+                  placeholder="Your Full Name" 
+                  required 
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
+                />
+                <input 
+                  type="tel" 
+                  placeholder="Phone Number" 
+                  required 
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
+                />
+                <input 
+                  type="email" 
+                  placeholder="Email Address" 
+                  required 
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
+                />
+                <textarea 
+                  rows={3} 
+                  placeholder="Brief summary of years of experience and core skills..." 
+                  required 
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
+                />
+                <Button type="submit" className="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase tracking-wider text-xs py-3 rounded-xl">
+                  Submit Application Data <Send className="w-3.5 h-3.5 ml-2" />
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
-      {/* NEW SECTION: Office Location & Interactive Map */}
+      {/* Location Section */}
       <section id="location" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712]">
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4">
@@ -528,7 +888,6 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            {/* Map Container */}
             <div className="lg:col-span-8 bg-[#070d1e] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative min-h-[380px] sm:min-h-[450px]">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3750.355466702035!2d73.82327767522773!3d19.951547781441825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDU3JzA1LjYiTiA3M8KwNDknMzMuMSJF!5e0!3m2!1sen!2sin!4v1785665192980!5m2!1sen!2sin" 
@@ -540,7 +899,6 @@ export default function Home() {
               />
             </div>
 
-            {/* Office Details Card */}
             <div className="lg:col-span-4 bg-gradient-to-br from-[#070d1e] to-slate-950 border border-slate-800 p-6 sm:p-8 rounded-2xl flex flex-col justify-between shadow-xl space-y-6">
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -635,9 +993,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="text-center sm:text-left">
             <p className="text-slate-300 font-bold tracking-wider mb-1">BIMCON ASSOCIATES</p>
-            <p className="text-slate-500 font-sans">ISO 9001:2015 Plant Systems Engineering</p>
+            <p className="text-slate-500 font-sans">Mechanical Engineering & Plant Maintenance Services</p>
           </div>
-          <p className="text-center sm:text-right font-sans text-slate-500">© {new Date().getFullYear()} Bimcon Associates. All rights reserved.</p>
+          <p className="text-center sm:text-right font-sans text-slate-500">
+            © 2026 Bimcon Associates. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
