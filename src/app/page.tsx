@@ -65,9 +65,9 @@ export default function Home() {
 
   const founders = [
     {
-      name: " Papa Chirackal",
-      role: "Co-Founder & Managing Director",
-      degree: "B.E. Computer Engineering",
+      name: " Zachariah C.T",
+      role: "Founder",
+      degree: "B.E. Mechanical Engineering",
       phone: "+91 9822971089",
       email: "bimconassociates@gmail.com",
       image: "/founders/founder1.jpg" // Put image in public/founders/founder1.jpg
@@ -75,8 +75,8 @@ export default function Home() {
     {
       name: "Jerin Chirackal",
       role: "Co-Founder & Technical Director",
-      degree: "B.Tech Computer Engineering",
-      phone: "+91 9764909778",
+      degree: "B.E",
+      phone: "+91  7066515116",
       email: "bimconassociates@gmail.com",
       image: "/founders/founder2.jpg" // Put image in public/founders/founder2.jpg
     }
