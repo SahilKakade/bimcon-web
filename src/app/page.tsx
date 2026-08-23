@@ -4,13 +4,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { 
-  ArrowUpRight, Wrench, Shield, Target, Eye, 
-  CheckCircle2, ShieldAlert, Cpu, ChevronRight, 
+  ArrowUpRight, Shield, Target, Eye, 
+  CheckCircle2, ShieldAlert, 
   Phone, Mail, MapPin, Activity, Gauge, 
   Building2, Navigation, GraduationCap, UserCheck,
-  Briefcase, CheckSquare2, FileText, Send
+  Briefcase, CheckSquare2, FileText, Send, Layers,
+  ChevronRight
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -31,7 +32,7 @@ function AnimatedCounter({ value }: { value: string }) {
   }, [springValue]);
 
   return (
-    <span ref={ref} className="font-mono text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400">
+    <span ref={ref} className="font-mono text-3xl sm:text-4xl font-black text-white tracking-tight">
       {current}{value.replace(/[0-9]/g, "")}
     </span>
   );
@@ -40,20 +41,12 @@ function AnimatedCounter({ value }: { value: string }) {
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [activeJobIndex, setActiveJobIndex] = useState(0);
-  const [selectedService, setSelectedService] = useState<null | {
-    title: string;
-    badge: string;
-    desc: string;
-    highlights: string[];
-    process: string[];
-  }>(null);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const currentYear = 2026;
   const yearsExperience = 17;
 
   const stats = [
@@ -65,119 +58,176 @@ export default function Home() {
 
   const founders = [
     {
-      name: " Zachariah C.T",
+      name: "Zachariah C.T",
       role: "Founder",
       degree: "B.E. Mechanical Engineering",
       phone: "+91 9822971089",
       email: "bimconassociates@gmail.com",
-      image: "/founders/founder1.jpg" // Put image in public/founders/founder1.jpg
+      image: "/founders/founder1.jpg"
     },
     {
       name: "Jerin Chirackal",
       role: "Co-Founder & Technical Director",
       degree: "B.E",
-      phone: "+91  7066515116",
+      phone: "+91 7066515116",
       email: "bimconassociates@gmail.com",
-      image: "/founders/founder2.jpg" // Put image in public/founders/founder2.jpg
+      image: "/founders/founder2.jpg"
     }
   ];
 
-  const services = [
-    { 
-      title: "Valves Servicing", 
-      badge: "Precision Systems",
-      desc: "We give services to all types of valves including Turbine Values (including High Pressure Valves, Intermediate Pressure Valves), Pilot Values, Emergency Stop Valve (ESV), Steam Line Valves, Safety Valves along with Online setting. Tools: Portable Lapping Machine, Seat cutting for Safety valves tools, DP test kit.",
-      highlights: ["Online setting available", "Portable Lapping Machine", "Seat cutting for Safety valves", "DP test kit"],
-      process: [
-        "Isolation and Safety.",
-        "Visual Inspection and baseline testing.",
-        "Overhaul and Component Servicing.",
-        "Reassembly and Calibration.",
-        "Routine Preventive Maintenance.",
-        "Diagnostic & Troubleshooting Testing.",
-        "Major Overhaul & Offline Calibration."
+  const serviceCategories = [
+    {
+      id: "valves-actuators",
+      title: "Valves and Actuator Servicing",
+      subtitle: "High-Pressure Calibration, Overhauls & In-Situ Remediation",
+      cards: [
+        {
+          title: "HP Control Valves Breakdown Maintenance",
+          location: "Bhusawal TPS, Deepnagar",
+          spec: "Unit No. 3 (210 MW)",
+          desc: "Work of attending breakdown maintenance of HP control valves of T.G. Set UnitNo.3, 210 MW, Bhusawal TPS, Deepnagar.",
+          bgImage: "/services/valves/valve-1.jpg"
+        },
+        {
+          title: "In-Situ HP CCI Valves Repair",
+          location: "CSTPS, Chandrapur",
+          spec: "AOH Unit - 4",
+          desc: "Work of In-situ repairing various High Pressure CCI Valves during AOH Unit -4 CSTPS, Chandrapur.",
+          bgImage: "/services/valves/valve-2.jpg"
+        },
+        {
+          title: "HP & Safety Valves Servicing & Repair",
+          location: "TPS Parli",
+          spec: "Unit - 7 AOH (250 MW, BM-1)",
+          desc: "Work of Servicing and In-situ repair of HP and safety valves during Unit - 7 AOH at BM-1 250 MW TPS Parli.",
+          bgImage: "/services/valves/valve-3.jpg"
+        },
+        {
+          title: "Boiler Safety Valve In-Situ Repair & PC Testing",
+          location: "Bhusawal TPS",
+          spec: "Unit - 5 (2 X 500 MW)",
+          desc: "Work contract for insitu repairs of safety valve & online testing by PC Based S.V. Testing machine in Boiler during annual overhaul of unit - 5 at 2 X 500 MW, Bhusawal TPS.",
+          bgImage: "/services/valves/valve-4.jpg"
+        },
+        {
+          title: "Valves, Actuators & AC Plant Capital Overhaul",
+          location: "TM-II, NTPS, Eklahare",
+          spec: "Unit No. 3 Capital Overhaul",
+          desc: "Work contract for servicing of valves, Actuators, AC Plant etc. of Unit No 3 during capital overhaul at TM-II, NTPS, Eklahare.",
+          bgImage: "/services/valves/valve-5.jpg"
+        }
       ]
     },
-    { 
-      title: "Pumps Servicing", 
-      badge: "Heavy Fluid Loops",
-      desc: "All types of pumps including Circulating Water Pump (CWP), Condensate Extraction Pump (CEP), Boiler Feed Pumps (BFP).",
-      highlights: ["Circulating Water Pump (CWP)", "Condensate Extraction Pump (CEP)", "Boiler Feed Pumps (BFP)"],
-      process: [
-        "Isolation and Safety.",
-        "Visual Inspection and baseline testing.",
-        "Overhaul and Component Servicing.",
-        "Reassembly and Calibration.",
-        "Routine Preventive Maintenance.",
-        "Diagnostic & Troubleshooting Testing.",
-        "Major Overhaul & Offline Calibration."
+    {
+      id: "pumps",
+      title: "Pumps Servicing",
+      subtitle: "Boiler Feed Pumps, CEP Assemblies & TG Auxiliaries Overhauls",
+      cards: [
+        {
+          title: "BFP, CAM Shaft, HPCV & Governing System Works",
+          location: "TM-II, NTPS, Eklahare",
+          spec: "Turbine Auxiliaries & Condenser",
+          desc: "Work contract for maintenance works of BFP, HPT CAM Shaft, HPCV 1 to 4 Emergency stop valve, Governing system Elements and attending condenser tube leakages as & when required at TM-II, NTPS, Eklahare.",
+          bgImage: "/services/pumps/pump-1.jpg"
+        },
+        {
+          title: "Condensate Extraction Pump (BHRC-28) Replacement",
+          location: "TM-II, NTPS, Eklahare",
+          spec: "Units 3, 4 & 5 (Kirloskar Brother Ltd)",
+          desc: "Work contract for replacement of Condensate Extraction Pump (BHRC-28, Make Kirloskar Brother Ltd) i.e. Complete Pump Assembly for Unit 3, 4 & 5 as and when required at TM-II, NTPS, Eklahare.",
+          bgImage: "/services/pumps/pump-2.jpg"
+        },
+        {
+          title: "Complete Overhauling of CEP (BHRC-28)",
+          location: "NTPS, Eklahare, Nashik",
+          spec: "Units 3, 4, 5 (210 MW, TM - II)",
+          desc: "Work contract for TOP / Complete overhauling of condensate Extraction Pump (BHRC - 28, make- Kirloskar Brother Ltd.) i.e. Complete Pump Assembly at Unit 3,4,5, at TM - II (210 MW), NTPS, Eklahare, Nashik.",
+          bgImage: "/services/pumps/pump-3.jpg"
+        },
+        {
+          title: "TG Set & BOP Auxiliaries Pumps Overhaul",
+          location: "Wanakbori TPS",
+          spec: "800 MW Supercritical Unit AOH",
+          desc: "Work of complete overhauling of various pumps Installed for T-G set & BOP auxiliaries at 800 MW Unit of Wanakbori TPS during AOH.",
+          bgImage: "/services/pumps/pump-4.jpg"
+        }
       ]
     },
-    { 
-      title: "Actuators Servicing", 
-      badge: "Automation Control",
-      desc: "All types of actuators electric, pneumatic, hydraulic, mechanical, electro-hydraulic actuators like Control Valve Servo Motor (CVSM).",
-      highlights: ["Electric & Pneumatic", "Hydraulic & Electro-Hydraulic", "Control Valve Servo Motor (CVSM)"],
-      process: [
-        "Isolation and Safety.",
-        "Visual Inspection and baseline testing.",
-        "Overhaul and Component Servicing.",
-        "Reassembly and Calibration.",
-        "Routine Preventive Maintenance.",
-        "Diagnostic & Troubleshooting Testing.",
-        "Major Overhaul & Offline Calibration."
+    {
+      id: "heat-exchangers",
+      title: "Heat Exchanger (Cooler) Works",
+      subtitle: "Condenser Hydro-Cleaning, Hydrogen Cooler Overhauls & Descaling",
+      cards: [
+        {
+          title: "TG Set Auxiliaries Coolers Cleaning",
+          location: "TM-II Nashik TPS, Eklahare",
+          spec: "Turbine Auxiliaries Grid",
+          desc: "Work contract for cleaning of T.G. set Auxiliaries coolers (as and when required) at TM-II Nashik TPS, Eklahare.",
+          bgImage: "/services/coolers/cooler-1.jpg"
+        },
+        {
+          title: "210 MW Generator Hydrogen Cooler Overhaul",
+          location: "TM-II, Nashik TPS",
+          spec: "Units 3, 4 & 5 AOH",
+          desc: "Work of 210 MW Generator Hydrogen cooler cleaning, Repair & Replacement during AOH /Unit 3, 4 & 5 (as & when required ) at TM-II, Nashik TPS.",
+          bgImage: "/services/coolers/cooler-2.jpg"
+        },
+        {
+          title: "Condenser & Multi-Cooler Cleaning Cycles",
+          location: "TMD-II & III, WTPS",
+          spec: "Units 4, 5, 6 & 7",
+          desc: "Work of cleaning of Condenser and various cooler of unit -4,5,6 & 7 of at WTPS as & when required basis TMD-II & III WTPS.",
+          bgImage: "/services/coolers/cooler-3.jpg"
+        }
       ]
     },
-    { 
-      title: "Cooler Work", 
-      badge: "Heat Transfer",
-      desc: "All types including Condensers, Working Oil coolers, Main oil coolers, Lube oil coolers, GTR coolers. Tools: Jetting machines, Bullet machine including all types of bullets, ceramic coating equipments, various size SS rods.",
-      highlights: ["Jetting & Bullet machines", "Ceramic coating equipment", "Multi-size SS rods"],
-      process: [
-        "Isolation and Safety.",
-        "Visual Inspection and baseline testing.",
-        "Overhaul and Component Servicing.",
-        "Reassembly and Calibration.",
-        "Routine Preventive Maintenance.",
-        "Diagnostic & Troubleshooting Testing.",
-        "Major Overhaul & Offline Calibration."
+    {
+      id: "industrial-pipeline",
+      title: "Industrial Pipeline Work",
+      subtitle: "Large Diameter Headers, Heavy Fabrication & Structural Rigging",
+      cards: [
+        {
+          title: "CW Underground Header Repair (Up to 2700 mm)",
+          location: "TM-II NTPS, Eklahare",
+          spec: "Units 3, 4 & 5 (2700 mm Dia Pipeline)",
+          desc: "Work contract for Repairing & strengthening of CW Underground Header ( Underground Pipeline of size - up to 2700 mm ) at Unit No 3, 4 & 5 at TM-II NTPS, Eklahare.",
+          bgImage: "/services/pipelines/pipeline-1.jpg"
+        },
+        {
+          title: "GS Water Header Repair & Replacement (600-750 NB)",
+          location: "TM-II NTPS, Eklahare",
+          spec: "Units 3, 4 & 5 (600 to 750 NB)",
+          desc: "Work contract for repairing / Replacement GS water Header (Pipe Size 600 to 750 NB ) along with material (as & when required ) at Unit No. 3 / 4 /5  TM -II NTPS, Eklahare.",
+          bgImage: "/services/pipelines/pipeline-2.jpg"
+        },
+        {
+          title: "Boiler & Turbine Pipeline Load Hangers Servicing",
+          location: "GTPS, Uran",
+          spec: "Main Steam & Auxiliary Headers",
+          desc: "Work of servicing and repair of load hangers and supports of boiler and turbine pipelines at GTPS, Uran.",
+          bgImage: "/services/pipelines/pipeline-3.jpg"
+        }
       ]
     },
-    { 
-      title: "Governing System Mechanics", 
-      badge: "Turbine Core",
-      desc: "Speed sensing subsystems, control units, Servo valves, pilot valves, hydraulic servo motor governor values.",
-      highlights: ["Speed sensing subsystems", "Control units & Servo valves", "Pilot & Governor valves"],
-      process: [
-        "Isolation and Safety.",
-        "Visual Inspection and baseline testing.",
-        "Overhaul and Component Servicing.",
-        "Reassembly and Calibration.",
-        "Routine Preventive Maintenance.",
-        "Diagnostic & Troubleshooting Testing.",
-        "Major Overhaul & Offline Calibration."
-      ]
-    },
-    { 
-      title: "Industrial Piping Assemblies", 
-      badge: "High Pressure",
-      desc: "Heavy mechanical blueprint design, field erection setup, seamless high-pressure welding, and repairs.",
-      highlights: ["Isometric Blueprint Mapping", "Precision Edge Prepping", "GTAW / SMAW Welding"],
-      process: [
-        "Isometric Blueprint Mapping",
-        "Precision Edge Prepping",
-        "High-Pressure GTAW/SMAW Welding"
-      ]
-    },
-    { 
-      title: "Cooling Tower Architecture", 
-      badge: "Infrastructure",
-      desc: "System maintenance cycles including industrial fan upgrades, shaft-motor balancing, and gearbox overhauls.",
-      highlights: ["Structural Frame Integrity", "Infill Cleaning & Replacement", "Fan Assembly Alignment"],
-      process: [
-        "Structural Frame Integrity Check",
-        "Infill Cleaning & Replacement",
-        "Fan Assembly Alignment"
+    {
+      id: "cooling-towers",
+      title: "Cooling Tower Works",
+      subtitle: "Fan Dynamic Balancing, CT Gearbox Rigging & Oil Line Alignment",
+      cards: [
+        {
+          title: "CT Fan Gearbox Assembly, Erection & Galvanizing",
+          location: "NTPS, Eklahare",
+          spec: "Fabrication, Erection & Oil Piping",
+          desc: "Work Of assembly of CT Fan gearbox and installation / fitting, Fabrication , Erection, Shifting and Galvanizing of gear box and replacement of oil pipe line at NTPS, Eklahare ( as & when required ).",
+          bgImage: "/services/cooling-towers/ct-1.jpg"
+        },
+        {
+          title: "CT Fan Gearbox Installation & Oil Line Overhaul",
+          location: "NTPS, Eklahare",
+          spec: "Precision Fitting & Dynamic Alignment",
+          desc: "Work of assembly of CT fan gearbox and installation/ fitting, of gear box and replacement of oil pipe line at NTPS, Eklahare. (as & when required).",
+          bgImage: "/services/cooling-towers/ct-2.jpg"
+        }
       ]
     }
   ];
@@ -440,6 +490,7 @@ export default function Home() {
               </div>
             </div>
             
+            {/* Numbers: Solid Pure White */}
             <div className="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-5">
               {stats.map((stat, i) => (
                 <div key={i} className="bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800/90 p-6 sm:p-8 rounded-2xl backdrop-blur-md hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-center items-center text-center group shadow-xl">
@@ -470,7 +521,6 @@ export default function Home() {
                 key={idx} 
                 className="bg-[#070d1e] border border-slate-800 rounded-2xl p-6 sm:p-8 hover:border-cyan-500/40 transition-all duration-300 shadow-xl flex flex-col sm:flex-row items-center sm:items-start gap-6 group"
               >
-                {/* Founder Photo */}
                 <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-cyan-500/20 flex items-center justify-center shrink-0 overflow-hidden relative shadow-inner">
                   {founder.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -487,7 +537,6 @@ export default function Home() {
                   )}
                 </div>
 
-                {/* Founder Details */}
                 <div className="flex-1 text-center sm:text-left space-y-3 w-full">
                   <div>
                     <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider block font-bold">{founder.role}</span>
@@ -517,100 +566,131 @@ export default function Home() {
       </section>
 
       {/* Services / Core Capabilities */}
-      <section id="services" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4">
+      <section id="services" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712] overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Header */}
+          <div className="px-5 sm:px-8 flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
             <div>
-              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">TECHNICAL SERVICES</span>
+              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">TECHNICAL SCOPE & CONTRACTS</span>
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight uppercase text-white">Core Capabilities</h2>
             </div>
             <p className="text-xs sm:text-sm font-mono text-slate-400 flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-full w-fit">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" /> Tap cards to view operational phases
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" /> Verified Plant Overhauls & Maintenance Records
             </p>
           </div>
-          
-          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-5 px-5 md:mx-0 md:px-0">
-            {services.map((srv, index) => (
-              <div 
-                key={index}
-                onClick={() => setSelectedService(srv)}
-                className="w-[85vw] max-w-[340px] md:w-full shrink-0 snap-start text-left bg-transparent border-0 p-0 block cursor-pointer outline-none"
-              >
-                <Card className="bg-[#070d1e] border border-slate-800/80 hover:border-cyan-500/40 hover:bg-[#0a132b] transition-all duration-300 group flex flex-col justify-between h-full rounded-2xl shadow-xl overflow-hidden outline-none ring-0">
-                  <CardHeader className="p-6 sm:p-7 pb-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors">
-                        <Wrench className="w-5 h-5" />
-                      </div>
-                      <span className="text-[10px] font-mono bg-slate-900/90 text-cyan-300 px-3 py-1 rounded-full border border-slate-800 uppercase tracking-widest font-semibold">
-                        {srv.badge}
-                      </span>
-                    </div>
-                    <CardTitle className="text-lg sm:text-xl text-white font-bold group-hover:text-cyan-300 transition-colors uppercase tracking-wide leading-snug">
-                      {srv.title}
-                    </CardTitle>
-                  </CardHeader>
 
-                  <CardContent className="p-6 sm:p-7 pt-0 flex flex-col justify-between flex-1">
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-normal line-clamp-3 text-justify">
-                      {srv.desc}
-                    </p>
-
-                    {srv.highlights && (
-                      <div className="mb-6 pt-4 border-t border-slate-800/80 space-y-2">
-                        {srv.highlights.slice(0, 2).map((item, hIdx) => (
-                          <div key={hIdx} className="text-xs text-slate-400 flex items-center gap-2">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                            <span className="truncate">{item}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <span className="text-xs font-mono text-cyan-400 uppercase flex items-center tracking-wider font-bold pt-1">
-                      EXPLORE WORKFLOW <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"/>
+          <div className="space-y-16">
+            {serviceCategories.map((category, catIdx) => (
+              <div key={category.id} className="space-y-4">
+                
+                {/* Category Heading Banner */}
+                <div className="px-5 sm:px-8 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-slate-800 pb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs font-bold text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-1 rounded-md">
+                      0{catIdx + 1}
                     </span>
-                  </CardContent>
-                </Card>
+                    <h3 className="text-lg sm:text-xl font-black tracking-tight uppercase text-white">
+                      {category.title}
+                    </h3>
+                  </div>
+                  <span className="text-xs font-mono text-slate-400 uppercase tracking-wider pl-9 sm:pl-0">
+                    {category.subtitle}
+                  </span>
+                </div>
+
+                {/* Horizontal Scroll on Mobile showing partial next card peek */}
+                <div className="w-full overflow-x-auto py-3 px-5 sm:px-8 snap-x snap-mandatory scroll-pl-5 sm:scroll-pl-8 no-scrollbar scroll-smooth flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  {category.cards.map((cardItem, cardIdx) => (
+                    <div
+                      key={cardIdx}
+                      className="w-[82vw] min-w-[300px] sm:min-w-[340px] md:w-full shrink-0 snap-start h-[270px] sm:h-[285px]"
+                    >
+                      <Card className="relative overflow-hidden border border-slate-700/80 hover:border-cyan-400 transition-all duration-300 group h-full rounded-2xl bg-[#091124] flex flex-col justify-between shadow-xl">
+                        
+                        {/* High Visibility Background Image */}
+                        <div 
+                          className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                          style={{ 
+                            backgroundImage: `url('${cardItem.bgImage}'), radial-gradient(circle at 50% 50%, #1e293b, #030712)` 
+                          }}
+                        />
+
+                        {/* Top Gradient Overlay */}
+                        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-slate-950/90 to-transparent z-[1]" />
+                        
+                        {/* Bottom Gradient Overlay */}
+                        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-950 via-slate-950/90 to-transparent z-[1]" />
+
+                        {/* Card Header Row */}
+                        <div className="relative z-10 p-4 pb-0 flex items-center justify-between">
+                          <span className="text-[10px] font-mono font-bold text-cyan-300 bg-slate-950/90 border border-cyan-500/50 px-2.5 py-0.5 rounded-md uppercase backdrop-blur-md shadow-md">
+                            Scope #{cardIdx + 1}
+                          </span>
+                          <div className="w-6 h-6 rounded-md bg-slate-950/90 border border-slate-700 flex items-center justify-center text-cyan-400 backdrop-blur-md shadow-md">
+                            <Layers className="w-3 h-3" />
+                          </div>
+                        </div>
+
+                        {/* Card Content & Details Block */}
+                        <div className="relative z-10 p-4 pt-0 space-y-2">
+                          <div className="bg-slate-950/85 backdrop-blur-md p-3 rounded-xl border border-slate-800/80 shadow-md space-y-1">
+                            <div>
+                              <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wide group-hover:text-cyan-300 transition-colors leading-snug line-clamp-1">
+                                {cardItem.title}
+                              </h4>
+                              <p className="text-[10px] font-mono text-cyan-300 font-semibold truncate">
+                                {cardItem.spec}
+                              </p>
+                            </div>
+                            
+                            <p className="text-[11px] sm:text-xs text-slate-200 leading-relaxed font-normal line-clamp-2 text-justify">
+                              {cardItem.desc}
+                            </p>
+                          </div>
+
+                          <div className="pt-1.5 border-t border-slate-700/60 flex items-center justify-between text-[10px] font-mono text-slate-300">
+                            <span className="flex items-center gap-1 text-emerald-400 font-semibold truncate max-w-[190px]">
+                              <CheckCircle2 className="w-3 h-3 shrink-0" /> {cardItem.location}
+                            </span>
+                            <span className="text-cyan-400 font-bold shrink-0">Executed</span>
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
+                  ))}
+
+                  {/* "And Many More..." Milestone Card */}
+                  <div className="w-[82vw] min-w-[300px] sm:min-w-[340px] md:w-full shrink-0 snap-start h-[270px] sm:h-[285px]">
+                    <Card className="relative overflow-hidden border border-dashed border-cyan-500/50 hover:border-cyan-400 transition-all duration-300 group h-full rounded-2xl bg-gradient-to-br from-cyan-950/70 via-slate-950 to-slate-900 flex flex-col justify-between shadow-xl p-4 sm:p-5">
+                      <div className="space-y-2">
+                        <span className="inline-block text-[10px] font-mono font-bold text-cyan-300 bg-cyan-950/80 border border-cyan-500/40 px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                          Comprehensive Portfolio
+                        </span>
+                        <h4 className="text-base sm:text-lg font-black uppercase tracking-wide text-white group-hover:text-cyan-300 transition-colors">
+                          And Many More...
+                        </h4>
+                        <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed text-justify line-clamp-3">
+                          Additional proprietary execution dossiers, emergency breakdown repair logs, and custom shutdown contracts available upon technical request.
+                        </p>
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+                        <button
+                          onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                          className="text-[11px] font-mono text-cyan-400 hover:text-cyan-300 uppercase tracking-wider font-bold inline-flex items-center gap-1 transition-colors cursor-pointer"
+                        >
+                          REQUEST DOSSIER <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                        </button>
+                      </div>
+                    </Card>
+                  </div>
+
+                </div>
               </div>
             ))}
           </div>
 
-          <Dialog open={!!selectedService} onOpenChange={(open) => !open && setSelectedService(null)}>
-            <DialogContent className="bg-[#070d1e] border-slate-800 text-slate-100 max-w-lg rounded-2xl p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
-              {selectedService && (
-                <>
-                  <DialogHeader className="pb-2">
-                    <div className="inline-block text-xs font-mono text-cyan-400 uppercase tracking-widest mb-1">{selectedService.badge}</div>
-                    <DialogTitle className="text-cyan-300 font-bold uppercase tracking-wide text-lg sm:text-xl leading-snug">
-                      {selectedService.title}
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="mt-4 space-y-6">
-                    <div className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-justify">
-                      {selectedService.desc}
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-xs font-mono text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-bold">
-                        <Cpu className="w-4 h-4 text-cyan-400"/> Operational Phases & Execution Loops
-                      </h4>
-                      <div className="space-y-2.5 bg-slate-900/40 p-4 rounded-xl border border-slate-800/60">
-                        {selectedService.process.map((p, idx) => (
-                          <div key={idx} className="text-xs sm:text-sm text-slate-300 flex items-start gap-3 py-1">
-                            <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/20">
-                              {idx + 1}
-                            </span>
-                            <span className="leading-relaxed">{p}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </DialogContent>
-          </Dialog>
         </div>
       </section>
 
