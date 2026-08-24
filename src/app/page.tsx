@@ -4,14 +4,13 @@ import React, { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import { 
-  ArrowUpRight, Shield, Target, Eye, 
-  CheckCircle2, ShieldAlert, 
+  ArrowUpRight, Wrench, Shield, Target, Eye, 
+  CheckCircle2, ShieldAlert, Cpu, ChevronRight, 
   Phone, Mail, MapPin, Activity, Gauge, 
   Building2, Navigation, GraduationCap, UserCheck,
-  Briefcase, CheckSquare2, FileText, Send, Layers,
-  ChevronRight
+  Briefcase, CheckSquare2, FileText, Send, Layers
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -41,6 +40,13 @@ function AnimatedCounter({ value }: { value: string }) {
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [activeJobIndex, setActiveJobIndex] = useState(0);
+  const [selectedService, setSelectedService] = useState<null | {
+    title: string;
+    badge: string;
+    desc: string;
+    highlights: string[];
+    process: string[];
+  }>(null);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
 
   useEffect(() => {
@@ -75,7 +81,107 @@ export default function Home() {
     }
   ];
 
-  const serviceCategories = [
+  const services = [
+    { 
+      title: "Valves Servicing", 
+      badge: "Precision Systems",
+      desc: "We give services to all types of valves including Turbine Values (including High Pressure Valves, Intermediate Pressure Valves), Pilot Values, Emergency Stop Valve (ESV), Steam Line Valves, Safety Valves along with Online setting. Tools: Portable Lapping Machine, Seat cutting for Safety valves tools, DP test kit.",
+      highlights: ["Online setting available", "Portable Lapping Machine", "Seat cutting for Safety valves", "DP test kit"],
+      process: [
+        "Isolation and Safety.",
+        "Visual Inspection and baseline testing.",
+        "Overhaul and Component Servicing.",
+        "Reassembly and Calibration.",
+        "Routine Preventive Maintenance.",
+        "Diagnostic & Troubleshooting Testing.",
+        "Major Overhaul & Offline Calibration."
+      ]
+    },
+    { 
+      title: "Pumps Servicing", 
+      badge: "Heavy Fluid Loops",
+      desc: "All types of pumps including Circulating Water Pump (CWP), Condensate Extraction Pump (CEP), Boiler Feed Pumps (BFP).",
+      highlights: ["Circulating Water Pump (CWP)", "Condensate Extraction Pump (CEP)", "Boiler Feed Pumps (BFP)"],
+      process: [
+        "Isolation and Safety.",
+        "Visual Inspection and baseline testing.",
+        "Overhaul and Component Servicing.",
+        "Reassembly and Calibration.",
+        "Routine Preventive Maintenance.",
+        "Diagnostic & Troubleshooting Testing.",
+        "Major Overhaul & Offline Calibration."
+      ]
+    },
+    { 
+      title: "Actuators Servicing", 
+      badge: "Automation Control",
+      desc: "All types of actuators electric, pneumatic, hydraulic, mechanical, electro-hydraulic actuators like Control Valve Servo Motor (CVSM).",
+      highlights: ["Electric & Pneumatic", "Hydraulic & Electro-Hydraulic", "Control Valve Servo Motor (CVSM)"],
+      process: [
+        "Isolation and Safety.",
+        "Visual Inspection and baseline testing.",
+        "Overhaul and Component Servicing.",
+        "Reassembly and Calibration.",
+        "Routine Preventive Maintenance.",
+        "Diagnostic & Troubleshooting Testing.",
+        "Major Overhaul & Offline Calibration."
+      ]
+    },
+    { 
+      title: "Cooler Work", 
+      badge: "Heat Transfer",
+      desc: "All types including Condensers, Working Oil coolers, Main oil coolers, Lube oil coolers, GTR coolers. Tools: Jetting machines, Bullet machine including all types of bullets, ceramic coating equipments, various size SS rods.",
+      highlights: ["Jetting & Bullet machines", "Ceramic coating equipment", "Multi-size SS rods"],
+      process: [
+        "Isolation and Safety.",
+        "Visual Inspection and baseline testing.",
+        "Overhaul and Component Servicing.",
+        "Reassembly and Calibration.",
+        "Routine Preventive Maintenance.",
+        "Diagnostic & Troubleshooting Testing.",
+        "Major Overhaul & Offline Calibration."
+      ]
+    },
+    { 
+      title: "Governing System Mechanics", 
+      badge: "Turbine Core",
+      desc: "Speed sensing subsystems, control units, Servo valves, pilot valves, hydraulic servo motor governor values.",
+      highlights: ["Speed sensing subsystems", "Control units & Servo valves", "Pilot & Governor valves"],
+      process: [
+        "Isolation and Safety.",
+        "Visual Inspection and baseline testing.",
+        "Overhaul and Component Servicing.",
+        "Reassembly and Calibration.",
+        "Routine Preventive Maintenance.",
+        "Diagnostic & Troubleshooting Testing.",
+        "Major Overhaul & Offline Calibration."
+      ]
+    },
+    { 
+      title: "Industrial Piping Assemblies", 
+      badge: "High Pressure",
+      desc: "Heavy mechanical blueprint design, field erection setup, seamless high-pressure welding, and repairs.",
+      highlights: ["Isometric Blueprint Mapping", "Precision Edge Prepping", "GTAW / SMAW Welding"],
+      process: [
+        "Isometric Blueprint Mapping",
+        "Precision Edge Prepping",
+        "High-Pressure GTAW/SMAW Welding"
+      ]
+    },
+    { 
+      title: "Cooling Tower Architecture", 
+      badge: "Infrastructure",
+      desc: "System maintenance cycles including industrial fan upgrades, shaft-motor balancing, and gearbox overhauls.",
+      highlights: ["Structural Frame Integrity", "Infill Cleaning & Replacement", "Fan Assembly Alignment"],
+      process: [
+        "Structural Frame Integrity Check",
+        "Infill Cleaning & Replacement",
+        "Fan Assembly Alignment"
+      ]
+    }
+  ];
+
+  const deploymentCategories = [
     {
       id: "valves-actuators",
       title: "Valves and Actuator Servicing",
@@ -229,49 +335,6 @@ export default function Home() {
           bgImage: "/services/cooling-towers/ct-2.jpg"
         }
       ]
-    }
-  ];
-
-  const deployments = [
-    {
-      title: "Valve Reconditioning Loops",
-      client: "MAHAGENCO",
-      type: "Shutdown Maintenance",
-      zone: "Turbine Core Complex",
-      pressureSpec: "180 kg/cm²",
-      duration: "14 Days",
-      status: "Completed",
-      highlights: ["HP/IP Valve Lapping", "Online Pilot Calibration", "Zero Steam Leakage Guarantee"]
-    },
-    {
-      title: "Cooling Tower Structural Overhaul",
-      client: "NTPC Grid Area",
-      type: "Mechanical Overhaul",
-      zone: "Cell Assembly Deck",
-      pressureSpec: "Atmospheric Flow",
-      duration: "21 Days",
-      status: "Completed",
-      highlights: ["Gearbox Overhaul", "Fan Dynamic Balancing", "PVC Drift Eliminator Replacement"]
-    },
-    {
-      title: "High-Pressure Piping Modifications",
-      client: "GSECL Authority",
-      type: "Fabrication & Erection",
-      zone: "Feedwater Loop Grid",
-      pressureSpec: "210 bar",
-      duration: "10 Days",
-      status: "Completed",
-      highlights: ["GTAW Root Pass Welding", "100% DP & RT Tested", "P91 Alloy Precision Alignment"]
-    },
-    {
-      title: "Condenser Tube Hydro-Scale Extraction",
-      client: "MPPGCL / KPCL",
-      type: "Hydro-Jetting Systems",
-      zone: "Main Cooling Systems",
-      pressureSpec: "1000 bar Jetting",
-      duration: "08 Days",
-      status: "Completed",
-      highlights: ["Scraper Bullet Cleaning", "Vacuum Integrity Restored", "Heat Rate Improvement"]
     }
   ];
 
@@ -490,7 +553,7 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Numbers: Solid Pure White */}
+            {/* Pure White Counter Numbers */}
             <div className="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-5">
               {stats.map((stat, i) => (
                 <div key={i} className="bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800/90 p-6 sm:p-8 rounded-2xl backdrop-blur-md hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-center items-center text-center group shadow-xl">
@@ -565,23 +628,120 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services / Core Capabilities */}
-      <section id="services" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712] overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          
-          {/* Header */}
-          <div className="px-5 sm:px-8 flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+      {/* Services / Core Capabilities (Original Layout with Modal Workflow) */}
+      <section id="services" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712]">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4">
             <div>
-              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">TECHNICAL SCOPE & CONTRACTS</span>
+              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">TECHNICAL SERVICES</span>
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight uppercase text-white">Core Capabilities</h2>
             </div>
             <p className="text-xs sm:text-sm font-mono text-slate-400 flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-full w-fit">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" /> Verified Plant Overhauls & Maintenance Records
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" /> Tap cards to view operational phases
+            </p>
+          </div>
+          
+          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-5 px-5 md:mx-0 md:px-0">
+            {services.map((srv, index) => (
+              <div 
+                key={index}
+                onClick={() => setSelectedService(srv)}
+                className="w-[85vw] max-w-[340px] md:w-full shrink-0 snap-start text-left bg-transparent border-0 p-0 block cursor-pointer outline-none"
+              >
+                <Card className="bg-[#070d1e] border border-slate-800/80 hover:border-cyan-500/40 hover:bg-[#0a132b] transition-all duration-300 group flex flex-col justify-between h-full rounded-2xl shadow-xl overflow-hidden outline-none ring-0">
+                  <CardHeader className="p-6 sm:p-7 pb-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors">
+                        <Wrench className="w-5 h-5" />
+                      </div>
+                      <span className="text-[10px] font-mono bg-slate-900/90 text-cyan-300 px-3 py-1 rounded-full border border-slate-800 uppercase tracking-widest font-semibold">
+                        {srv.badge}
+                      </span>
+                    </div>
+                    <CardTitle className="text-lg sm:text-xl text-white font-bold group-hover:text-cyan-300 transition-colors uppercase tracking-wide leading-snug">
+                      {srv.title}
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="p-6 sm:p-7 pt-0 flex flex-col justify-between flex-1">
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-normal line-clamp-3 text-justify">
+                      {srv.desc}
+                    </p>
+
+                    {srv.highlights && (
+                      <div className="mb-6 pt-4 border-t border-slate-800/80 space-y-2">
+                        {srv.highlights.slice(0, 2).map((item, hIdx) => (
+                          <div key={hIdx} className="text-xs text-slate-400 flex items-center gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                            <span className="truncate">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <span className="text-xs font-mono text-cyan-400 uppercase flex items-center tracking-wider font-bold pt-1">
+                      EXPLORE WORKFLOW <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"/>
+                    </span>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
+
+          <Dialog open={!!selectedService} onOpenChange={(open) => !open && setSelectedService(null)}>
+            <DialogContent className="bg-[#070d1e] border-slate-800 text-slate-100 max-w-lg rounded-2xl p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
+              {selectedService && (
+                <>
+                  <DialogHeader className="pb-2">
+                    <div className="inline-block text-xs font-mono text-cyan-400 uppercase tracking-widest mb-1">{selectedService.badge}</div>
+                    <DialogTitle className="text-cyan-300 font-bold uppercase tracking-wide text-lg sm:text-xl leading-snug">
+                      {selectedService.title}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="mt-4 space-y-6">
+                    <div className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-justify">
+                      {selectedService.desc}
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-xs font-mono text-white uppercase tracking-wider mb-4 flex items-center gap-2 font-bold">
+                        <Cpu className="w-4 h-4 text-cyan-400"/> Operational Phases & Execution Loops
+                      </h4>
+                      <div className="space-y-2.5 bg-slate-900/40 p-4 rounded-xl border border-slate-800/60">
+                        {selectedService.process.map((p, idx) => (
+                          <div key={idx} className="text-xs sm:text-sm text-slate-300 flex items-start gap-3 py-1">
+                            <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-mono font-bold flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/20">
+                              {idx + 1}
+                            </span>
+                            <span className="leading-relaxed">{p}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
+        </div>
+      </section>
+
+      {/* Verified Deployments Section (New Categorized Wide Cards Layout) */}
+      <section id="projects" className="py-24 sm:py-32 border-t border-slate-800/80 bg-gradient-to-b from-[#030712] to-[#060e20] overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          
+          <div className="px-5 sm:px-8 flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+            <div>
+              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">FIELD PORTFOLIO</span>
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight uppercase text-white">Verified Deployments</h2>
+            </div>
+            <p className="text-xs sm:text-sm font-mono text-slate-400 flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-full w-fit">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" /> State-Wide Power Plant Shutdown & Maintenance Records
             </p>
           </div>
 
           <div className="space-y-16">
-            {serviceCategories.map((category, catIdx) => (
+            {deploymentCategories.map((category, catIdx) => (
               <div key={category.id} className="space-y-4">
                 
                 {/* Category Heading Banner */}
@@ -651,7 +811,7 @@ export default function Home() {
 
                           <div className="pt-1.5 border-t border-slate-700/60 flex items-center justify-between text-[10px] font-mono text-slate-300">
                             <span className="flex items-center gap-1 text-emerald-400 font-semibold truncate max-w-[190px]">
-                              <CheckCircle2 className="w-3 h-3 shrink-0" /> {cardItem.location}
+                              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> {cardItem.location}
                             </span>
                             <span className="text-cyan-400 font-bold shrink-0">Executed</span>
                           </div>
@@ -691,79 +851,6 @@ export default function Home() {
             ))}
           </div>
 
-        </div>
-      </section>
-
-      {/* Projects Gallery */}
-      <section id="projects" className="py-24 sm:py-32 border-t border-slate-800/80 bg-gradient-to-b from-[#030712] to-[#060e20]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16 gap-4">
-            <div>
-              <span className="text-cyan-400 font-mono text-xs tracking-widest uppercase font-bold block mb-2">FIELD PORTFOLIO</span>
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight uppercase text-white">Verified Deployments</h2>
-            </div>
-            <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">State-Wide Power Infrastructure</span>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {deployments.map((proj, idx) => (
-              <div 
-                key={idx} 
-                className="bg-[#070d1e] border border-slate-800/90 rounded-2xl overflow-hidden group hover:border-cyan-500/40 transition-all duration-300 shadow-xl flex flex-col justify-between"
-              >
-                <div className="p-6 sm:p-7 bg-gradient-to-r from-slate-900/90 to-[#0c1633] border-b border-slate-800 flex items-start justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-[10px] font-mono text-cyan-300 tracking-wider uppercase font-semibold">{proj.type}</span>
-                    </div>
-                    <h3 className="text-lg sm:text-xl text-white font-bold uppercase tracking-wide group-hover:text-cyan-300 transition-colors">
-                      {proj.title}
-                    </h3>
-                  </div>
-                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider font-bold shrink-0">
-                    {proj.status}
-                  </span>
-                </div>
-
-                <div className="p-6 sm:p-7 space-y-6 flex-1 flex flex-col justify-between">
-                  <div className="grid grid-cols-3 gap-3 font-mono text-xs border border-slate-800/80 rounded-xl p-3.5 bg-slate-950/40">
-                    <div>
-                      <span className="text-[10px] text-slate-500 uppercase block">Client Authority</span>
-                      <span className="text-white font-bold truncate block">{proj.client}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-slate-500 uppercase block">Pressure / Spec</span>
-                      <span className="text-cyan-300 font-bold truncate block">{proj.pressureSpec}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-slate-500 uppercase block">Duration</span>
-                      <span className="text-emerald-400 font-bold truncate block">{proj.duration}</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 pt-2">
-                    <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block font-semibold">Key Scope Executed:</span>
-                    <div className="space-y-1.5">
-                      {proj.highlights.map((hl, hIdx) => (
-                        <div key={hIdx} className="flex items-center gap-2 text-xs text-slate-300 font-sans">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                          <span>{hl}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400">
-                    <span>Zone: <strong className="text-slate-200">{proj.zone}</strong></span>
-                    <span className="text-cyan-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 font-bold">
-                      VERIFIED LOG <ArrowUpRight className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
