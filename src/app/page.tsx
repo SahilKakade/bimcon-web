@@ -8,11 +8,12 @@ import {
   CheckCircle2, ShieldAlert, Cpu, ChevronRight, 
   Phone, Mail, MapPin, Activity, Gauge, 
   Building2, Navigation, GraduationCap, UserCheck,
-  Briefcase, CheckSquare2, FileText, Send, Layers
+  Briefcase, CheckSquare2, FileText, Send, Layers, Loader2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { supabase } from "@/lib/supabase";
 
 function AnimatedCounter({ value }: { value: string }) {
   const ref = useRef(null);
@@ -48,6 +49,22 @@ export default function Home() {
     process: string[];
   }>(null);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+
+  // Form States
+  const [careerSubmitting, setCareerSubmitting] = useState(false);
+  const [careerForm, setCareerForm] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    summary: ""
+  });
+
+  const [contactSubmitting, setContactSubmitting] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    clientName: "",
+    email: "",
+    message: ""
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -389,6 +406,59 @@ export default function Home() {
     }
   ];
 
+  // Career Form Submission
+  const handleCareerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCareerSubmitting(true);
+
+    try {
+      const { error } = await supabase.from("career_applications").insert([
+        {
+          job_title: careerPositions[activeJobIndex].title,
+          full_name: careerForm.fullName,
+          phone: careerForm.phone,
+          email: careerForm.email,
+          summary: careerForm.summary
+        }
+      ]);
+
+      if (error) throw error;
+
+      alert("Application submitted successfully! Our technical HR team will reach out soon.");
+      setCareerForm({ fullName: "", phone: "", email: "", summary: "" });
+      setIsApplyModalOpen(false);
+    } catch (err: any) {
+      alert("Submission failed: " + (err.message || "Unknown error occurred"));
+    } finally {
+      setCareerSubmitting(false);
+    }
+  };
+
+  // Contact Form Submission
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactSubmitting(true);
+
+    try {
+      const { error } = await supabase.from("contact_inquiries").insert([
+        {
+          client_name: contactForm.clientName,
+          email: contactForm.email,
+          message: contactForm.message
+        }
+      ]);
+
+      if (error) throw error;
+
+      alert("Specifications transmitted! Our engineering desk will connect shortly.");
+      setContactForm({ clientName: "", email: "", message: "" });
+    } catch (err: any) {
+      alert("Transmission failed: " + (err.message || "Unknown error occurred"));
+    } finally {
+      setContactSubmitting(false);
+    }
+  };
+
   if (!mounted) {
     return (
       <div className="min-h-screen bg-[#030712] text-slate-100 font-sans antialiased overflow-x-hidden">
@@ -628,7 +698,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services / Core Capabilities (Original Layout with Modal Workflow) */}
+      {/* Services / Core Capabilities */}
       <section id="services" className="py-24 sm:py-32 border-t border-slate-800/80 bg-[#030712]">
         <div className="max-w-7xl mx-auto px-5 sm:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4">
@@ -726,7 +796,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Verified Deployments Section (New Categorized Wide Cards Layout) */}
+      {/* Verified Deployments Section */}
       <section id="projects" className="py-24 sm:py-32 border-t border-slate-800/80 bg-gradient-to-b from-[#030712] to-[#060e20] overflow-hidden">
         <div className="max-w-7xl mx-auto">
           
@@ -1007,33 +1077,53 @@ export default function Home() {
                 </DialogTitle>
               </DialogHeader>
 
-              <form className="space-y-4 mt-4" onSubmit={(e) => { e.preventDefault(); setIsApplyModalOpen(false); alert("Application details transmitted. Our HR team will get in touch shortly."); }}>
+              <form className="space-y-4 mt-4" onSubmit={handleCareerSubmit}>
                 <input 
                   type="text" 
                   placeholder="Your Full Name" 
                   required 
+                  value={careerForm.fullName}
+                  onChange={(e) => setCareerForm({ ...careerForm, fullName: e.target.value })}
                   className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
                 />
                 <input 
                   type="tel" 
                   placeholder="Phone Number" 
                   required 
+                  value={careerForm.phone}
+                  onChange={(e) => setCareerForm({ ...careerForm, phone: e.target.value })}
                   className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
                 />
                 <input 
                   type="email" 
                   placeholder="Email Address" 
                   required 
+                  value={careerForm.email}
+                  onChange={(e) => setCareerForm({ ...careerForm, email: e.target.value })}
                   className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
                 />
                 <textarea 
                   rows={3} 
                   placeholder="Brief summary of years of experience and core skills..." 
                   required 
+                  value={careerForm.summary}
+                  onChange={(e) => setCareerForm({ ...careerForm, summary: e.target.value })}
                   className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400"
                 />
-                <Button type="submit" className="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase tracking-wider text-xs py-3 rounded-xl">
-                  Submit Application Data <Send className="w-3.5 h-3.5 ml-2" />
+                <Button 
+                  type="submit" 
+                  disabled={careerSubmitting}
+                  className="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase tracking-wider text-xs py-3 rounded-xl disabled:opacity-50"
+                >
+                  {careerSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" /> Transmitting...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      Submit Application Data <Send className="w-3.5 h-3.5" />
+                    </span>
+                  )}
                 </Button>
               </form>
             </DialogContent>
@@ -1140,14 +1230,45 @@ export default function Home() {
             </div>
             
             <div className="lg:col-span-7 w-full">
-              <form className="space-y-5 w-full bg-[#070d1e] border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-5 w-full bg-[#070d1e] border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl" onSubmit={handleContactSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <input type="text" className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors placeholder:text-slate-500 font-normal" placeholder="Corporate Identity / Client Name" required />
-                  <input type="email" className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors placeholder:text-slate-500 font-normal" placeholder="Email Anchor" required />
+                  <input 
+                    type="text" 
+                    placeholder="Corporate Identity / Client Name" 
+                    required 
+                    value={contactForm.clientName}
+                    onChange={(e) => setContactForm({ ...contactForm, clientName: e.target.value })}
+                    className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors placeholder:text-slate-500 font-normal" 
+                  />
+                  <input 
+                    type="email" 
+                    placeholder="Email Anchor" 
+                    required 
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors placeholder:text-slate-500 font-normal" 
+                  />
                 </div>
-                <textarea rows={5} className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors placeholder:text-slate-500 font-normal" placeholder="Outline specific maintenance parameters or tender cycles..." required></textarea>
-                <Button type="submit" className="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase tracking-widest text-xs sm:text-sm py-5 rounded-xl cursor-pointer transition-transform active:scale-[0.99] shadow-lg shadow-cyan-500/20">
-                  Transmit Specifications Node
+                <textarea 
+                  rows={5} 
+                  placeholder="Outline specific maintenance parameters or tender cycles..." 
+                  required 
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3.5 text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors placeholder:text-slate-500 font-normal"
+                ></textarea>
+                <Button 
+                  type="submit" 
+                  disabled={contactSubmitting}
+                  className="w-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold uppercase tracking-widest text-xs sm:text-sm py-5 rounded-xl cursor-pointer transition-transform active:scale-[0.99] shadow-lg shadow-cyan-500/20 disabled:opacity-50"
+                >
+                  {contactSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin" /> Transmitting Specifications...
+                    </span>
+                  ) : (
+                    "Transmit Specifications Node"
+                  )}
                 </Button>
               </form>
             </div>
