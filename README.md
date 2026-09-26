@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BIMCON Associates
+
+A professional business website built for BIMCON Associates, an industrial engineering and plant maintenance company.
+
+## Overview
+
+BIMCON Associates is a responsive business website designed to present the company's services, capabilities and industry-focused solutions through a structured and professional digital experience.
+
+The website focuses on clear information architecture, responsive layouts, reusable components and a modern user interface across desktop and mobile devices.
+
+## Features
+
+- Responsive business website
+- Service and capability sections
+- Company information and business content
+- Structured navigation
+- Responsive layouts
+- Reusable UI components
+- Modern frontend architecture
+- Production deployment
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- CSS
+- Vercel
+
+## Development
+
+The project uses Next.js with TypeScript and reusable React components to build a maintainable and responsive frontend.
 
 ## Getting Started
 
-First, run the development server:
+### Clone the repository
 
 ```bash
+git clone https://github.com/SahilKakade/bimcon-web.git
+cd bimcon-web
+
+Install dependencies
+npm install
+Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The website is deployed using Vercel.
 
-## Learn More
+Author
+Sahil Kakade
 
-To learn more about Next.js, take a look at the following resources:
+Full-Stack Developer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Portfolio: https://www.sahilkakade.in/
+LinkedIn: https://www.linkedin.com/in/sahil-kakade-2123ba171/
