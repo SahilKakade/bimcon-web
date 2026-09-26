@@ -35,17 +35,6 @@ The project uses Next.js with TypeScript and reusable React components to build 
 
 ### Clone the repository
 
-```bash
-git clone https://github.com/SahilKakade/bimcon-web.git
-cd bimcon-web
-
-Install dependencies
-npm install
-Run the development server
-npm run dev
-
-Open http://localhost:3000 in your browser.
-
 Deployment
 
 The website is deployed using Vercel.
@@ -57,3 +46,16 @@ Full-Stack Developer
 
 Portfolio: https://www.sahilkakade.in/
 LinkedIn: https://www.linkedin.com/in/sahil-kakade-2123ba171/
+
+```bash
+git clone https://github.com/SahilKakade/bimcon-web.git
+cd bimcon-web
+
+Install dependencies
+npm install
+Run the development server
+npm run dev
+
+Open http://localhost:3000 in your browser.
+
+
